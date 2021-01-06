@@ -10,9 +10,9 @@ group 'com.github.recraftedcivilizations'
 version '1.0-SNAPSHOT'
 
 // plugin.yml values
-pluginName ''
-description ''
-authors []
+def pluginName = ''
+def pluginDescription = ''
+def pluginAuthors = []
 
 // Base repos
 repositories {
@@ -54,10 +54,10 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 bukkit {
     meta {
         name = pluginName
-        description = description
+        description = pluginDescription
         main = group + '.' + pluginName + '.' + 'Main'
         version = version
-        authors = authors
+        authors = pluginAuthors
     }
 
 }
