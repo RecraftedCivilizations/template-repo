@@ -8,10 +8,12 @@ plugins {
 group 'com.github.recraftedcivilizations'
 version '1.0-SNAPSHOT'
 
-// plugin.yml values
+// Custom settings that will go into the plugin.yml
+// and will be used for publishing
 def pluginName = ''
-def pluginDescription = ''
-def pluginAuthors = []
+def author = []
+// Leave null for the latest API or fill in your wanted API version eg. 1.18
+def apiVersion = null
 
 // Base repos
 repositories {
@@ -49,22 +51,11 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     }
 }
 
-// plugin.yml
-bukkit {
-    meta {
-        name = pluginName
-        description = pluginDescription
-        main = group + '.' + pluginName.toLowerCase() + '.' + pluginName
-        version = version
-        authors = pluginAuthors
-    }
-
-}
-
+// Publishing
 publishing {
     publications {
         recraftedCore(MavenPublication) {
-            groupId = 'com.github.recraftedcivilizations'
+            groupId = this.group
             artifactId = pluginName
             version = this.version
             from components.java
