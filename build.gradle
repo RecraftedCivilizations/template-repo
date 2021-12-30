@@ -18,9 +18,17 @@ def apiVersion = null
 // Base repos
 repositories {
     mavenCentral()
-    maven { url 'https://repo.repsy.io/mvn/darkvanityoflight/recraftedcivilizations' }
-    spigot()
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+        content {
+            includeGroup 'org.bukkit'
+            includeGroup 'org.spigotmc'
+        }
+    }
 }
+
+//=====================================Dependencies=====================================//
+
 // Kotlin stuff
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib'
@@ -30,18 +38,37 @@ dependencies {
 
 // Minecraft deps
 dependencies {
-    compileOnly spigotApi()
-    compileOnly 'com.github.recraftedcivilizations:RecraftedCore:3.+'
-}
+    // If the version is null we get the newest one
+    if(apiVersion == null){
+        implementation 'org.spigotmc:spigot-api:+'
+        testImplementation 'org.spigotmc:spigot-api:+'
+    }else{
+        // Else we get the defined one
+        implementation 'org.spigotmc:spigot-api:${apiVersion}'
+        testImplementation 'org.spigotmc:spigot-api:${apiVersion}'
+    }
 
-// Test stuff
+
+}
+//======================================================================================//
+
 test {
     useJUnitPlatform()
 }
 
-dependencies {
-    testCompile spigotApi()
-    testCompile 'com.github.recraftedcivilizations:RecraftedCore:3.+'
+processResources {
+    // If the version is undefined we want to find the version gradle got
+    if (apiVersion == null){
+        // So find the module at runtime level and get the version
+        apiVersion = configurations.runtimeClasspath.resolvedConfiguration.firstLevelModuleDependencies.findAll {
+            it.moduleName == "spigot-api"}[0].moduleVersion
+    }
+
+    filesMatching('plugin.yml'){
+        // Expand all variables and get the numerical only api version
+        expand([pluginName: pluginName, version: version, author: author, api: apiVersion.split('-')[0]])
+    }
+
 }
 
 // Jvm Target
