@@ -44,8 +44,8 @@ dependencies {
         testImplementation 'org.spigotmc:spigot-api:+'
     }else{
         // Else we get the defined one
-        implementation 'org.spigotmc:spigot-api:${apiVersion}'
-        testImplementation 'org.spigotmc:spigot-api:${apiVersion}'
+        implementation "org.spigotmc:spigot-api:${apiVersion}"
+        testImplementation "org.spigotmc:spigot-api:${apiVersion}"
     }
 
 
