@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '+'
     id 'org.jetbrains.dokka' version '+'
     id 'maven-publish'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 group 'com.github.recraftedcivilizations'
